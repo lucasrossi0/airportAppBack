@@ -1,27 +1,67 @@
 package com.airportapp.airport_app.controller;
 
 import com.airportapp.airport_app.model.Airport;
-import com.airportapp.airport_app.repository.AirportRepository;
+import com.airportapp.airport_app.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/airports")
+//@CrossOrigin
 public class AirportController {
 
+    private final AirportService airportService;
+
     @Autowired
-    public AirportRepository airportRepository;
+    public AirportController(AirportService airportService) {
+        this.airportService = airportService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Airport>> getAllAirports() {
-        List<Airport> airports = airportRepository.findAll();
-        return new ResponseEntity<>(airports, HttpStatus.OK);
+    public Page<Airport> getAllAirports(Pageable pageable) {
+        return airportService.findAll(pageable);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
+        return airportService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Airport createAirport(@RequestBody Airport airport) {
+        return airportService.save(airport);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport airport) {
+        return airportService.findById(id)
+                .map(existingAirport -> {
+                    airport.setId(id);
+                    return ResponseEntity.ok(airportService.save(airport));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
+        return airportService.findById(id)
+                .map(airport -> {
+                    airportService.deleteById(id);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+//    @GetMapping("/search")
+//    public List<Airport> searchAirports(@RequestParam String keyword) {
+//        return airportService.searchAirports(keyword);
+//    }
 }
