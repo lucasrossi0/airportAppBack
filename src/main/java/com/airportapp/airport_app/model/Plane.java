@@ -1,4 +1,4 @@
-package model;
+package com.airportapp.airport_app.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

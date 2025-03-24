@@ -1,4 +1,4 @@
-package model;
+package com.airportapp.airport_app.model;
 
 public enum FlightStatus {
     ON_TIME,

@@ -1,13 +1,13 @@
-package controller;
+package com.airportapp.airport_app.controller;
 
-import model.Flight;
+import com.airportapp.airport_app.model.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import repository.FlightRepository;
+import com.airportapp.airport_app.repository.FlightRepository;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package repository;
+package com.airportapp.airport_app.repository;
 
-import model.Plane;
+import com.airportapp.airport_app.model.Plane;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

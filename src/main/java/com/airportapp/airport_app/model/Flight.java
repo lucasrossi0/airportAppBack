@@ -1,4 +1,4 @@
-package model;
+package com.airportapp.airport_app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
