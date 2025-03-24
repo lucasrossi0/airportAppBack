@@ -10,15 +10,15 @@ This document serves as a guide and log for the full-stack development of the *
 
 ### Backend
 
-- [ ]  Set up the Spring Boot project using Spring Initializr.
+- [x]  Set up the Spring Boot project using Spring Initializr.
 
-- [ ]  Create entity classes (`Airport`, `Flight`, `Plane`) with JPA annotations.
+- [x]  Create entity classes (`Airport`, `Flight`, `Plane`) with JPA annotations.
 
-- [ ]  Implement repository interfaces (`AirportRepository`, `FlightRepository`, `PlaneRepository`).
+- [x]  Implement repository interfaces (`AirportRepository`, `FlightRepository`, `PlaneRepository`).
 
 - [ ]  Develop service classes (`AirportService`, `FlightService`, `PlaneService`) for business logic.
 
-- [ ]  Implement controllers for RESTful API endpoints.
+- [x]  Implement controllers for RESTful API endpoints.
   
   ### Frontend
 
@@ -48,14 +48,14 @@ This document serves as a guide and log for the full-stack development of the *
 
 ## Backend Part
 
-| Task                            | Estimated Time | Actual Time | Impediments | New Concepts |
-| ------------------------------- | -------------- | ----------- | ----------- | ------------ |
-| Set up Spring Boot project      | 1 hour         |             |             |              |
-| Create entity classes           | 2 hours        |             |             |              |
-| Implement repository interfaces | 1 hour         |             |             |              |
-| Develop service classes         | 2 hours        |             |             |              |
-| Implement controllers           | 2 hours        |             |             |              |
-| **Total**                       | **8 hours**    |             |             |              |
+| Task                            | Estimated Time | Actual Time | Impediments                                                                         | New Concepts |
+| ------------------------------- | -------------- | ----------- | ----------------------------------------------------------------------------------- | ------------ |
+| Set up Spring Boot project      | 1 hour         | 15 min      |                                                                                     |              |
+| Create entity classes           | 2 hours        | 2 hours     | Not able to load data through data.sql or create tables automatically from entities |              |
+| Implement repository interfaces | 1 hour         | 10 min      |                                                                                     |              |
+| Develop service classes         | 2 hours        | 30 min      |                                                                                     |              |
+| Implement controllers           | 2 hours        | 30 min      |                                                                                     |              |
+| **Total**                       | **8 hours**    |             |                                                                                     |              |
 
 ## Frontend Part
 
@@ -72,31 +72,24 @@ This document serves as a guide and log for the full-stack development of the *
 
 ## Error Documentation and Solutions
 
-### Error: `[ERROR_MESSAGE]`
+### Error: Table Creation Error due to Folder Structure
 
-**Corresponding Task:** [RELATED_TASK]
+**Corresponding Task:** Create entity classes
 
-**Description:** [ERROR_DESCRIPTION]
+**Description:** The application fails to create H2 database tables because Spring Data JPA doesn't detect repositories and entities due to incorrect package structure.
 
 **Error Trace:**
 
-- **Component:** [COMPONENT_NAME]
-- **File:** [FILE_NAME]
-- **Line:** [ERROR_LINE]
-- **Stack Trace:**
-  - [ERROR_TRACE]
+- **Component:** Spring Data JPA
 
-**Possible Causes:**
+- **File:** AirportAppApplication.java
 
-- [POTENTIAL_CAUSES]
+- **Line:** No explicit error line (package-level issue)
 
-**Solution:**
+- **Log Evidence:**  
+  `Finished Spring Data repository scanning in 13 ms. Found 0 JPA repository interfaces`
 
-```jsx
-// Fixed code or solution
-```
-
-**Explanation:** [EXPLANATION_OF_THE_SOLUTION]
+**Explanation:** components were not under `com.airportapp.airport_app`
 
 ---
 
