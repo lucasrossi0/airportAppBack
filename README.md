@@ -16,7 +16,7 @@ This document serves as a guide and log for the full-stack development of the *
 
 - [x]  Implement repository interfaces (`AirportRepository`, `FlightRepository`, `PlaneRepository`).
 
-- [ ]  Develop service classes (`AirportService`, `FlightService`, `PlaneService`) for business logic.
+- [x]  Develop service classes (`AirportService`, `FlightService`, `PlaneService`) for business logic.
 
 - [x]  Implement controllers for RESTful API endpoints.
   
@@ -48,14 +48,14 @@ This document serves as a guide and log for the full-stack development of the *
 
 ## Backend Part
 
-| Task                            | Estimated Time | Actual Time | Impediments                                                                         | New Concepts |
-| ------------------------------- | -------------- | ----------- | ----------------------------------------------------------------------------------- | ------------ |
-| Set up Spring Boot project      | 1 hour         | 15 min      |                                                                                     |              |
-| Create entity classes           | 2 hours        | 2 hours     | Not able to load data through data.sql or create tables automatically from entities |              |
-| Implement repository interfaces | 1 hour         | 10 min      |                                                                                     |              |
-| Develop service classes         | 2 hours        | 30 min      |                                                                                     |              |
-| Implement controllers           | 2 hours        | 30 min      |                                                                                     |              |
-| **Total**                       | **8 hours**    |             |                                                                                     |              |
+| Task                            | Estimated Time | Actual Time        | Impediments                                                                         | New Concepts |
+| ------------------------------- | -------------- | ------------------ | ----------------------------------------------------------------------------------- | ------------ |
+| Set up Spring Boot project      | 1 hour         | 15 min             |                                                                                     |              |
+| Create entity classes           | 2 hours        | 2 hours            | Not able to load data through data.sql or create tables automatically from entities |              |
+| Implement repository interfaces | 1 hour         | 10 min             |                                                                                     |              |
+| Develop service classes         | 2 hours        | 1 hour             |                                                                                     |              |
+| Implement controllers           | 2 hours        | 1 hour             |                                                                                     |              |
+| **Total**                       | **8 hours**    | **4 hours 25 min** |                                                                                     |              |
 
 ## Frontend Part
 
