@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/planes")
+@RequestMapping("/api/v1/planes")
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class PlaneController {
 
     private final PlaneService planeService;

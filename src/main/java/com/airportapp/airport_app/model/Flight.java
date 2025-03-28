@@ -1,6 +1,7 @@
 package com.airportapp.airport_app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,14 +24,14 @@ public class Flight {
     private LocalDateTime arrivalTime;
     private FlightStatus flightStatus;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "departure_airport_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "departedFlights", "arrivingFlights"})
     private Airport departureAirport;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "departedFlights", "arrivingFlights"})
     private Airport arrivalAirport;
 
     @JsonIgnore
