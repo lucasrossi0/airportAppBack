@@ -1,6 +1,8 @@
 package com.airportapp.airport_app.controller;
 
 import com.airportapp.airport_app.model.Airport;
+import com.airportapp.airport_app.model.Flight;
+import com.airportapp.airport_app.repository.AirportRepository;
 import com.airportapp.airport_app.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +19,12 @@ import java.util.List;
 public class AirportController {
 
     private final AirportService airportService;
+    private final AirportRepository airportRepository;
 
     @Autowired
-    public AirportController(AirportService airportService) {
+    public AirportController(AirportService airportService, AirportRepository airportRepository) {
         this.airportService = airportService;
+        this.airportRepository = airportRepository;
     }
 
     @GetMapping
@@ -60,6 +64,15 @@ public class AirportController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{id}/departures")
+    public ResponseEntity<List<Flight>> getDepartures(@PathVariable Long id){
+        return ResponseEntity.ok(airportRepository.findDepartures(id));
+    }
+
+    @GetMapping("/{id}/arrivals")
+    public ResponseEntity<List<Flight>> getArrivals(@PathVariable Long id){
+        return ResponseEntity.ok(airportRepository.findArrivals(id));
+    }
 //    @GetMapping("/search")
 //    public List<Airport> searchAirports(@RequestParam String keyword) {
 //        return airportService.searchAirports(keyword);
