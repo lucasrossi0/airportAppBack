@@ -1,10 +1,12 @@
 package com.airportapp.airport_app.controller;
 
 
+import com.airportapp.airport_app.dto.FlightResponse;
 import com.airportapp.airport_app.model.Flight;
 import com.airportapp.airport_app.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,18 @@ public class FlightController {
     }
 
     @GetMapping
-    public Page<Flight> getAllFlights(Pageable pageable) {
-        return flightService.findAll(pageable);
+    public ResponseEntity<FlightResponse> getAllFlights(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+            Page<Flight> flightPage = flightService.findAll(PageRequest.of(page, size));
+
+            FlightResponse response = new FlightResponse(
+                    flightPage.getContent(),
+                    flightPage.getNumber(),
+                    flightPage.getTotalPages(),
+                    flightPage.getTotalElements()
+            );
     }
 
     @GetMapping("/{id}")
