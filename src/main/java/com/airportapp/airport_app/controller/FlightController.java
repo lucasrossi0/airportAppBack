@@ -39,6 +39,8 @@ public class FlightController {
                     flightPage.getTotalPages(),
                     flightPage.getTotalElements()
             );
+
+            return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
