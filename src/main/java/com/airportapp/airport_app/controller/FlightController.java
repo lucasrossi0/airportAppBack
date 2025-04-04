@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/flights")
@@ -29,19 +32,37 @@ public class FlightController {
     @GetMapping
     public ResponseEntity<FlightResponse> getAllFlights(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "departureTime,asc") String[] sort) {
 
-            Page<Flight> flightPage = flightService.findAll(PageRequest.of(page, size));
+        List<Sort.Order> orders = new ArrayList<>();
 
-            FlightResponse response = new FlightResponse(
-                    flightPage.getContent(),
-                    flightPage.getNumber(),
-                    flightPage.getTotalPages(),
-                    flightPage.getTotalElements()
-            );
+        for (String sortField : sort) {
+            String[] parts = sortField.split(",");
+            String property = parts[0];
 
-            return ResponseEntity.ok(response);
+            Sort.Direction direction = Optional.ofNullable(parts.length > 1 ? parts[1] : null)
+                    .map(String::toUpperCase)
+                    .map(Sort.Direction::valueOf)
+                    .orElse(Sort.Direction.ASC);
+
+            orders.add(new Sort.Order(direction, property));
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+
+        Page<Flight> flightPage = flightService.findAll(pageable);
+
+        FlightResponse response = new FlightResponse(
+                flightPage.getContent(),
+                flightPage.getNumber(),
+                flightPage.getTotalPages(),
+                flightPage.getTotalElements()
+        );
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Flight> getFlightById(@PathVariable Long id) {
