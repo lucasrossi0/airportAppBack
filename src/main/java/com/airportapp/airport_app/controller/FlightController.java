@@ -4,6 +4,7 @@ package com.airportapp.airport_app.controller;
 import com.airportapp.airport_app.dto.FlightResponse;
 import com.airportapp.airport_app.model.Flight;
 import com.airportapp.airport_app.service.FlightService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,14 +21,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/flights")
 @CrossOrigin(origins = "http://localhost:5173")
+@RequiredArgsConstructor
 public class FlightController {
 
     private final FlightService flightService;
-
-    @Autowired
-    public FlightController(FlightService flightService) {
-        this.flightService = flightService;
-    }
 
     @GetMapping
     public ResponseEntity<FlightResponse> getAllFlights(
@@ -35,30 +32,11 @@ public class FlightController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "departureTime,asc") String[] sort) {
 
-        List<Sort.Order> orders = new ArrayList<>();
+        FlightDTO flightDTO = flightMapper.createDTO(page, size, sort);
 
-        for (String sortField : sort) {
-            String[] parts = sortField.split(",");
-            String property = parts[0];
+        Page<Flight> flightPage = flightService.findAll(flightDTO);
 
-            Sort.Direction direction = Optional.ofNullable(parts.length > 1 ? parts[1] : null)
-                    .map(String::toUpperCase)
-                    .map(Sort.Direction::valueOf)
-                    .orElse(Sort.Direction.ASC);
-
-            orders.add(new Sort.Order(direction, property));
-        }
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
-
-        Page<Flight> flightPage = flightService.findAll(pageable);
-
-        FlightResponse response = new FlightResponse(
-                flightPage.getContent(),
-                flightPage.getNumber(),
-                flightPage.getTotalPages(),
-                flightPage.getTotalElements()
-        );
+        FlightResponse response = flightMapper.toResponse(flightPage);
 
         return ResponseEntity.ok(response);
     }
